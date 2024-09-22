@@ -20,6 +20,6 @@ class Cliente extends Model
 
     public function representantes()
     {
-        return $this->belongsToMany(Representante::class, 'representante_cliente');
+        return $this->belongsToMany(Representante::class, 'representante_cliente','cidade_id', 'representante_id');
     }
 }

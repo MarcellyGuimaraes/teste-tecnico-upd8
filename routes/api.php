@@ -11,6 +11,7 @@ Route::apiResource('clientes', ClientesController::class);
 
 // Rotas CRUD para Representantes
 Route::apiResource('representantes', RepresentantesController::class);
+Route::post('representantes/{representante}/cidades', [RepresentantesController::class, 'addCidade']);
 
 // Rotas somente GET para Cidades (listar e visualizar)
 Route::get('cidades', [CidadesController::class, 'index']);

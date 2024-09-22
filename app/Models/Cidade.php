@@ -25,6 +25,6 @@ class Cidade extends Model
 
     public function representantes()
     {
-        return $this->belongsToMany(Representante::class, 'representante_cidade');
+        return $this->belongsToMany(Representante::class, 'representante_cidade', 'cidade_id', 'representante_id');
     }
 }

@@ -15,11 +15,11 @@ class Representante extends Model
 
     public function cidades()
     {
-        return $this->belongsToMany(Cidade::class, 'representante_cidade');
+        return $this->belongsToMany(Cidade::class, 'representante_cidade', 'representante_id', 'cidade_id');
     }
 
     public function clientes()
     {
-        return $this->belongsToMany(Cliente::class, 'representante_cliente');
+        return $this->belongsToMany(Cliente::class, 'representante_cliente', 'representante_id', 'cliente_id');
     }
 }

@@ -28,7 +28,7 @@ class PopulateCitiesFromApiSeeder extends Seeder
             foreach ($cidades as $cidade) {
                 Cidade::create([
                     'cid_nome' => $cidade['nome'],
-                    'estado_id' => $novoEstado->id,
+                    'estado_id' => $novoEstado->estado_id,
                 ]);
             }
         }
