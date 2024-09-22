@@ -10,6 +10,8 @@ class Estado extends Model
     use HasFactory;
 
     protected $fillable = ['est_nome', 'est_sigla'];
+    protected $primaryKey = 'estado_id';
+    protected $table = 'estados';
 
     public function cidades()
     {

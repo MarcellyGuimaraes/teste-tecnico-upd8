@@ -10,6 +10,8 @@ class Cidade extends Model
     use HasFactory;
 
     protected $fillable = ['cid_nome', 'estado_id'];
+    protected $primaryKey = 'cidade_id';
+    protected $table = 'cidades';
 
     public function estado()
     {

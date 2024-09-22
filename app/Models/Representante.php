@@ -10,6 +10,8 @@ class Representante extends Model
     use HasFactory;
 
     protected $fillable = ['rep_nome'];
+    protected $primaryKey = 'representante_id';
+    protected $table = 'representantes';
 
     public function cidades()
     {

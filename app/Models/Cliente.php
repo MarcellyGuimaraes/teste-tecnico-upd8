@@ -9,7 +9,9 @@ class Cliente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cli_cpf', 'cli_nome', 'cli_nascimento', 'cli_sexo', 'cli_endereco', 'cidade_id'];
+    protected $fillable = ['cli_cpf', 'cli_nome', 'cli_nascimento', 'cli_sexo', 'cli_endereco', 'cidade_id', 'estado_id'];
+    protected $primaryKey = 'cliente_id';
+    protected $table = 'clientes';
 
     public function cidade()
     {
