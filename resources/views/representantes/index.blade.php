@@ -28,7 +28,7 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                     </form>
-                    <a href="{{ route('representantes.show', $representante->representante_id) }}" class="btn btn-info btn-sm">Ver Clientes</a>
+                    <a href="{{ route('representantes.clientes', $representante->representante_id) }}" class="btn btn-info btn-sm">Ver Clientes</a>
                 </td>
             </tr>
 
@@ -245,7 +245,7 @@
             })
             .then(function (response) {
                 alert('Representante editado com sucesso!');
-                // location.reload(); // Recarregar a página para atualizar a lista
+                location.reload(); // Recarregar a página para atualizar a lista
             })
             .catch(function (error) {
                 console.log(error);

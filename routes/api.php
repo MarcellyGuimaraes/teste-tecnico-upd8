@@ -20,3 +20,8 @@ Route::get('cidades/{id}', [CidadesController::class, 'show']);
 // Rotas somente GET para Estados (listar e visualizar)
 Route::get('estados', [EstadosController::class, 'index']);
 Route::get('estados/{id}', [EstadosController::class, 'show']);
+
+Route::get('/cidades/{estadoId}/{representanteId}', [CidadesController::class, 'getCidadesPorEstadoRepresentante']);
+Route::post('clientes/{clienteId}/representantes', [ClientesController::class, 'addRepresentante']);
+Route::get('clientes/{clienteId}/representantes', [ClientesController::class, 'getRepresentantes']);
+Route::delete('clientes/{clienteId}/representantes/{representanteId}', [ClientesController::class, 'removeRepresentante']);

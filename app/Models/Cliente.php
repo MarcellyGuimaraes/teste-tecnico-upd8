@@ -15,11 +15,15 @@ class Cliente extends Model
 
     public function cidade()
     {
-        return $this->belongsTo(Cidade::class);
+        return $this->belongsTo(Cidade::class, 'cidade_id');
     }
 
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'estado_id');
+    }
     public function representantes()
     {
-        return $this->belongsToMany(Representante::class, 'representante_cliente','cidade_id', 'representante_id');
+        return $this->belongsToMany(Representante::class, 'representante_cliente', 'cliente_id', 'representante_id');
     }
 }
