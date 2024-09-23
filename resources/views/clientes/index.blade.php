@@ -4,6 +4,7 @@
 <h1>Clientes do Representante: {{ $representante->rep_nome }}</h1>
 
 <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addClienteModal">Adicionar Cliente</button>
+<a href="/" class="btn btn-secondary mb-3">Voltar para representantes</a>
 
 <table class="table">
     <thead>
@@ -337,6 +338,7 @@
                 .then(function (response) {
                     updateRepresentantesAdicionados(formData.get('cliente_id'));
                     document.getElementById('representante_id').value = '';
+                    location.reload();
                 })
                 .catch(function (error) {
                     console.error(error);
