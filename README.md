@@ -1,66 +1,88 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1>TESTE TÉCNICO UPD8</h1>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+SQLS PARA CONSULTA NO BANCO DE DADOS
+1. Script SQL para retornar todos os representantes que podem atender a um cliente, dado o ID do cliente:
+sql
+Copiar código
+SELECT r.representante_id, r.rep_nome
+FROM representantes r
+JOIN representante_cliente rc ON r.representante_id = rc.representante_id
+WHERE rc.cliente_id = ?; -- Substitua '?' pelo ID do cliente desejado
+2. Script SQL para retornar todos os representantes de uma determinada cidade, dado o ID da cidade:
+sql
+Copiar código
+SELECT r.representante_id, r.rep_nome
+FROM representantes r
+JOIN representante_cidade rc ON r.representante_id = rc.representante_id
+WHERE rc.cidade_id = ?; -- Substitua '?' pelo ID da cidade desejada
+3. DDL completo da base de dados:
+Aqui está o DDL que você já forneceu, que pode ser salvo em um arquivo:
 
-## About Laravel
+sql
+Copiar código
+CREATE TABLE `estados` (
+  `estado_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `est_nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `est_sigla` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`estado_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+CREATE TABLE `representantes` (
+  `representante_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `rep_nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`representante_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+CREATE TABLE `cidades` (
+  `cidade_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `cid_nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `estado_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`cidade_id`),
+  KEY `cidades_estado_id_foreign` (`estado_id`),
+  CONSTRAINT `cidades_estado_id_foreign` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`estado_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5571 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+CREATE TABLE `clientes` (
+  `cliente_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `cli_cpf` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cli_nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cli_nascimento` date NOT NULL,
+  `cli_sexo` enum('M','F') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cli_endereco` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cidade_id` bigint(20) unsigned NOT NULL,
+  `estado_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`cliente_id`),
+  UNIQUE KEY `clientes_cli_cpf_unique` (`cli_cpf`),
+  KEY `clientes_cidade_id_foreign` (`cidade_id`),
+  KEY `clientes_estado_id_foreign` (`estado_id`),
+  CONSTRAINT `clientes_cidade_id_foreign` FOREIGN KEY (`cidade_id`) REFERENCES `cidades` (`cidade_id`) ON DELETE CASCADE,
+  CONSTRAINT `clientes_estado_id_foreign` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`estado_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-## Learning Laravel
+CREATE TABLE `representante_cidade` (
+  `representante_id` bigint(20) unsigned NOT NULL,
+  `cidade_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`representante_id`,`cidade_id`),
+  KEY `representante_cidade_cidade_id_foreign` (`cidade_id`),
+  CONSTRAINT `representante_cidade_cidade_id_foreign` FOREIGN KEY (`cidade_id`) REFERENCES `cidades` (`cidade_id`) ON DELETE CASCADE,
+  CONSTRAINT `representante_cidade_representante_id_foreign` FOREIGN KEY (`representante_id`) REFERENCES `representantes` (`representante_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+CREATE TABLE `representante_cliente` (
+  `representante_id` bigint(20) unsigned NOT NULL,
+  `cliente_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`representante_id`,`cliente_id`),
+  KEY `representante_cliente_cliente_id_foreign` (`cliente_id`),
+  CONSTRAINT `representante_cliente_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`cliente_id`) ON DELETE CASCADE,
+  CONSTRAINT `representante_cliente_representante_id_foreign` FOREIGN KEY (`representante_id`) REFERENCES `representantes` (`representante_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
